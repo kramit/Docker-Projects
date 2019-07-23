@@ -1,0 +1,4 @@
+FROM mcr.microsoft.com/windows/servercore:ltsc2019
+RUN powershell new-item -type directory -path c:\ -name scripts
+ADD testScript.ps1 /scripts/
+CMD ["powershell", "-NoProfile", "-Command", "C:\\scripts\\testScript.ps1"]

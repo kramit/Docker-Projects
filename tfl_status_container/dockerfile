@@ -1,0 +1,19 @@
+# Sample Dockerfile
+
+# Indicates that the windowsservercore image will be used as the base image.
+FROM mcr.microsoft.com/windows/servercore:ltsc2019
+
+# Metadata indicating an image maintainer.
+LABEL maintainer="mike@michaelwhitehouse.com"
+
+# Uses dism.exe to install the IIS role.
+RUN dism.exe /online /enable-feature /all /featurename:iis-webserver /NoRestart
+
+#make scripts dir
+RUN powershell new-item -type directory -path c:\ -name scripts
+
+#add in the script to run
+ADD tflgetloop.ps1 /scripts/
+
+# Sets a command or process that will run each time a container is run from the new image.
+CMD ["powershell", "-NoProfile", "-Command", "C:\\scripts\\tflgetloop.ps1"]
